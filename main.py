@@ -12,6 +12,44 @@ def download_txt():
     else:
         return 'Nie ma plik .txt w takim URL: {}'.format(URL_FILE)
 
+def count_punctuation():
+
+    with open('file.txt', 'r') as f:
+        counter = 0
+        for letter in f.read():
+            if letter in '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~':
+                counter += 1
+    return counter
+
+
+def count_sentences():
+    with open('file.txt', 'r') as f:
+        counter = 0
+        for sentence in f.read():
+            if sentence in '.?!':
+                counter += 1
+    return counter
+
+
+def count_letters():
+    with open('file.txt', 'r') as f:
+        counter = 0
+        for letter in f.read():
+            if letter.isalpha():
+                counter += 1
+    return counter
+
+
+def generate_raport():
+    with open('statystyki.txt', 'w') as file:
+        lines = [
+            'Liczba liter: {}'.format(count_letters()),
+            'Liczba wyrazów: {}'.format(count_words()),
+            'Liczba znaków interpunkcyjnych: {}'.format(count_punctuation()),
+            'Liczba zdań: {}'.format(count_sentences()),
+            ]
+        file.write('===STATYSTYKI===\n' + '\n'.join(lines))
+
 
 def count_words():
     with open('file.txt', 'r') as f:
@@ -44,7 +82,7 @@ while True:
 
     if prompt == '1':
         print("1. Pobierz plik z internetu")
-        download_txt()
+        print(download_txt())
     elif prompt == '2':
         print('2. Zlicz liczbę liter w pobranym pliku')
     elif prompt == '3':
@@ -52,10 +90,13 @@ while True:
         count_words()
     elif prompt == '4':
         print('4. Zlicz liczbę znaków interpunkcyjnych w pliku')
+        print(count_punctuation())
     elif prompt == '5':
         print('5. Zlicz liczbę zdań w pliku')
+        print(count_sentences())
     elif prompt == '6':
         print('6. Wygeneruj raport o użyciu liter (A-Z)')
+        generate_raport()
     elif prompt == '7':
         print('7. Zapisz statystyki z punktów 2-5 do pliku statystyki.txt')
     elif prompt == '8':
